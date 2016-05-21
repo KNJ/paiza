@@ -38,15 +38,11 @@ class Paiza
 
     public function __construct()
     {
-        if (STDIN) {
-            ob_start();
-            while (!feof(STDIN)) {
-              echo trim(fgets(STDIN)).PHP_EOL;
-            }
-            $stdin = ob_get_clean();
-        } else {
-            $stdin = $this->sample;
+        ob_start();
+        while (!feof(STDIN)) {
+          echo trim(fgets(STDIN)).PHP_EOL;
         }
+        $stdin = ob_get_clean();
 
         $meta = [];
         $data = [];

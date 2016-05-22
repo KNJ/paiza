@@ -47,6 +47,7 @@ class Paiza
         $meta = [];
         $data = [];
         $stdin = str_replace(["\r\n", "\n\r"], "\n", $stdin);
+        $stdin = rtrim($stdin);
         $lines = explode("\n", $stdin);
         for ($i = 0; $i < $this->meta_lines ?? 0; $i++) {
             $meta[] = array_shift($lines);

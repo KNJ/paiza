@@ -1,4 +1,11 @@
-<?php // $ cat sample | php php/submit.php
+<?php
+/**
+ * @author KNJ <knj@wazly.net>
+ * @see    https://github.com/KNJ/paiza
+ *
+ * Do following command to test!
+ * cat sample | php php/sumit.php
+ */
 
 $paiza = new class extends Paiza implements PaizaInterface
 {
@@ -8,7 +15,7 @@ $paiza = new class extends Paiza implements PaizaInterface
     /**
      * メタ行の取得   $meta[0], $meta[1], ...
      * データ行の取得 $data[0], $data[1], ...
-     * 解答行の追加   $this->addResult(string)
+     * 解答行の追加   $this->add(string)
      */
     public function process(array $meta, array $data)
     {
@@ -20,15 +27,22 @@ Paiza::submit($paiza);
 
 class Paiza
 {
-    protected $result = [];
+    public $result = [];
 
+    /**
+     * コードを提出
+     */
     static public function submit(PaizaInterface $paiza)
     {
         echo implode("\n", $paiza->result) . "\n";
     }
 
-    // 多次元配列の生成
-    static public function explode(array &$data, string $delimiter = ' ')
+    /**
+     * 多次元配列の生成
+     * Paiza::split($meta) // メタ行をスペースでさらに分割
+     * Paiza::split($data) // データ行をスペースでさらに分割
+     */
+    static public function split(array &$data, string $delimiter = ' ')
     {
         foreach ($data as $i => $v) {
             $data[$i] = explode($delimiter, $v);
@@ -36,6 +50,9 @@ class Paiza
         return $data;
     }
 
+    /**
+     * データ加工処理
+     */
     public function __construct()
     {
         ob_start();
@@ -55,7 +72,12 @@ class Paiza
         $this->process($meta, $lines);
     }
 
-    public function addResult(string $output)
+    /**
+     * 出力行追加
+     *
+     * @return Paiza
+     */
+    public function add(string $output): Paiza
     {
         $this->result[] = $output;
         return $this;
